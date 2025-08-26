@@ -1,0 +1,30 @@
+@import "tailwindcss";
+*{
+  font-family: "Play", sans-serif;
+}
+
+/* @media print {
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    opacity: 0.08;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .print-watermark img {
+    width: 100%;
+    height: auto;
+  }
+
+ 
+} */
