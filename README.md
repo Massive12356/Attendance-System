@@ -25,7 +25,7 @@ This system helps organizations track staff check-ins with screenshots for verif
 
 ### 🔹 Admin Dashboard
 ![Admin Dashboard---Created Staff List](./public/assets/admin1.png)
-![Admin Dashboard--- Staaf attendance recorded](./public/assets/admin3.png)
+![Admin Dashboard--- Staff attendance recorded](./public/assets/admin3.png)
 
 
 ---
