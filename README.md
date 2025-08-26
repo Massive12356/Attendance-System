@@ -1,12 +1,54 @@
-# React + Vite
+# 📊 Attendance Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An **Attendance System** built with **React + TailwindCSS**.  
+This system helps organizations track staff check-ins with screenshots for verification and provides an **admin dashboard** for managing staff, exporting attendance, and auditing records.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ✅ **Staff Check-in** using Staff ID (with screenshot capture).  
+- 👤 **User Mode** – staff can log their attendance.  
+- 🛠️ **Admin Mode** – create staff, search attendance records, and manage users.  
+- 📑 **Reports** – export attendance data to Excel or print for audits.  
+- 🎨 **Modern UI** – built with React + TailwindCSS for a clean, responsive interface.  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📸 Screenshots
+
+### 🔹 Staff Check-in Page
+![Staff Check-in](./assets/user1.png)
+![Staff Check-in](./assets/user2.png)
+![Staff Check-in](./assets/user3.png)
+![Staff Check-in](./assets/user4.png)
+
+### 🔹 Admin Dashboard
+![Admin Dashboard---Created Staff List](./assets/admin1.png)
+![Admin Dashboard--- Staaf attendance recorded](./assets/admin3.png)
+
+
+---
+
+## 🏗️ Tech Stack
+
+- **Frontend:** React, TailwindCSS  
+- **State Management:** React Hooks / LocalStorage  
+- **Exports & Printing:** ExcelJS, Print API  
+- **Version Control:** Git & GitHub  
+
+---
+
+## ⚡ Getting Started
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/Massive12356/Attendance-System.git
+cd attendance-system
+npm install
+npm run dev
+
+👨‍💻 Author
+
+Edward Mintah
+Frontend Developer @ Suku Technologies
