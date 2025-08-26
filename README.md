@@ -18,14 +18,14 @@ This system helps organizations track staff check-ins with screenshots for verif
 ## 📸 Screenshots
 
 ### 🔹 Staff Check-in Page
-![Staff Check-in](./assets/user1.png)
-![Staff Check-in](./assets/user2.png)
-![Staff Check-in](./assets/user3.png)
-![Staff Check-in](./assets/user4.png)
+![Staff Check-in](./public/assets/user1.png)
+![Staff Check-in](./public/assets/user2.png)
+![Staff Check-in](./public/assets/user3.png)
+![Staff Check-in](./public/assets/user4.png)
 
 ### 🔹 Admin Dashboard
-![Admin Dashboard---Created Staff List](./assets/admin1.png)
-![Admin Dashboard--- Staaf attendance recorded](./assets/admin3.png)
+![Admin Dashboard---Created Staff List](./public/assets/admin1.png)
+![Admin Dashboard--- Staaf attendance recorded](./public/assets/admin3.png)
 
 
 ---
