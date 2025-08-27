@@ -126,5 +126,4 @@ const useAttendanceStore = create((set, get) => ({
   },
 }));
 
-
 export default useAttendanceStore;
