@@ -82,7 +82,7 @@ const AttendancePage = () => {
                 to=""
                 whileTap={{ scale: 0.97 }}
                 whileHover={{ scale: 1.02 }}
-                className="w-full md:w-1/2 flex-1 min-h-[130px] bg-zinc-800 text-white p-4 rounded-lg font-bold flex flex-col justify-between"
+                className="w-full hidden md:w-1/2 flex-1 min-h-[130px] bg-zinc-800 text-white p-4 rounded-lg font-bold flex-col justify-between"
               >
                 <p>Deliver Packages</p>
                 <div className="flex justify-end">

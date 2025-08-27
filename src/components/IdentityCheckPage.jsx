@@ -83,7 +83,7 @@ const IdentityCheckPage = () => {
             to=""
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02 }}
-            className="flex-1 min-h-[120px] bg-zinc-800 rounded-lg p-4 text-white font-semibold flex flex-col justify-between"
+            className="flex-1 min-h-[120px] bg-zinc-800 rounded-lg p-4 text-white font-semibold hidden flex-col justify-between"
           >
             <p className="mb-4 text-base md:text-lg">No, I'm a visitor</p>
             <div className="flex justify-end">
