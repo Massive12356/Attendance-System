@@ -4,7 +4,7 @@ import bgImage from "../assets/Background.jpg";
 import { motion } from "framer-motion";
 import GoodDay from "./GoodDay";
 import { FaBox } from "react-icons/fa";
-import { MdLocalShipping } from "react-icons/md";
+import AnimatedClock from "./AnimatedClock";
 
 const MotionLink = motion(Link);
 
@@ -16,6 +16,12 @@ const AttendancePage = () => {
     >
       {/* Navbar */}
       <NavBar />
+
+      <div className="absolute right-1 hidden md:block">
+      <AnimatedClock/>
+      </div>
+
+
 
       {/* Responsive Flex Container */}
       <motion.div

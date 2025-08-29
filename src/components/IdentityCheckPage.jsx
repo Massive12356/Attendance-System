@@ -56,7 +56,6 @@ const IdentityCheckPage = () => {
 
           {/* Visitor Button */}
           <MotionLink
-            to="/visitor"
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02 }}
             className="w-full sm:w-[42%] md:w-[400px] min-h-[220px] sm:min-h-[230px] md:min-h-[250px] bg-zinc-800 rounded-4xl p-5 sm:p-6 md:p-6 text-white font-semibold flex flex-col justify-between"

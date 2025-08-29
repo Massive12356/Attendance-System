@@ -6,8 +6,8 @@ import Loading from "./Loading";
 import useAttendanceStore from "../../store/useAttendanceStore";
 import { MdCallEnd } from "react-icons/md";
 import { FiCamera } from "react-icons/fi";
-import { FaArrowLeft} from "react-icons/fa";
-import bgImage from "../assets/Background.jpg"
+import { FaArrowLeft } from "react-icons/fa";
+import bgImage from "../assets/Background.jpg";
 
 const CheckinPage = () => {
   const [pin, setPin] = useState("");
