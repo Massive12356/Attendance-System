@@ -1,109 +1,72 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import bgImage from "../assets/Background1.jpg";
+import { FaArrowLeft, FaUsers, FaUser } from "react-icons/fa";
 
 const MotionLink = motion(Link);
 
 const IdentityCheckPage = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-black p-4 md:p-6">
+    <div
+      className="flex flex-col min-h-screen p-4 md:p-6 bg-no-repeat bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       {/* Back Button */}
-      <Link to="/" className="mb-4">
-        <div className="flex items-center text-white gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#ffffff"
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14" />
-            <path d="M5 12l4 4" />
-            <path d="M5 12l4 -4" />
-          </svg>
-          <p className="text-sm md:text-base">Back</p>
-        </div>
-      </Link>
+      <MotionLink
+        to="/"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="flex items-center justify-center w-[20%] sm:w-[15%] md:w-[9%] gap-2 px-5 py-2 bg-[#2989de] text-white font-semibold rounded-full hover:bg-[#2989de]/80 shadow-md transition-all duration-200 z-20"
+      >
+        <FaArrowLeft className="text-white" />
+        <span className="hidden md:block">Back</span>
+      </MotionLink>
 
-      <div className="flex flex-col w-full flex-grow">
-        {/* Header */}
-        <div className="border-b border-white pb-3 mb-5">
-          <p className="font-bold text-2xl md:text-3xl text-white">
+      {/* content div */}
+      <div className="flex flex-col w-full flex-grow items-center justify-center text-center  sm:-mt-6 md:-mt-9 space-y-8 sm:space-y-10">
+        {/* Question */}
+        <div className="space-y-2 sm:space-y-3">
+          <p className="font-bold text-3xl sm:text-3xl md:text-4xl text-[#024e96]">
             Checking In
           </p>
-        </div>
-
-        {/* Question */}
-        <div className="mb-6">
-          <p className="font-bold text-xl md:text-2xl text-white">
+          <p className="font-light text-lg sm:text-xl md:text-2xl text-white">
             Are you a Staff of our space?
           </p>
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6  justify-center items-center w-full md:gap-20 mt-6 sm:mt-9">
           {/* Member Button */}
           <MotionLink
             to="/check-in"
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02 }}
-            className="flex-1 min-h-[120px] bg-zinc-800 rounded-lg p-4 text-white font-semibold flex flex-col justify-between"
+            className="w-full sm:w-[42%] md:w-[400px] min-h-[220px] sm:min-h-[230px] md:min-h-[250px] bg-zinc-800 rounded-4xl p-5 sm:p-6 md:p-6 text-white font-semibold flex flex-col justify-between"
           >
-            <p className="mb-4 text-base md:text-lg">Yes, I Am A Staff</p>
+            <p className="mb-3 sm:mb-4 text-base sm:text-base md:text-lg text-left">
+              Yes, I Am A Staff
+            </p>
             <div className="flex justify-end">
-              <div className="w-9 h-9 border border-gray-400 flex items-center justify-center rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#ff9500"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                  <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
-                  <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                  <path d="M17 10h2a2 2 0 0 1 2 2v1" />
-                  <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                  <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
-                </svg>
+              <div className="w-10 h-10 flex items-center justify-center">
+                <FaUsers className="text-[#2989de] text-5xl" />
               </div>
             </div>
           </MotionLink>
 
           {/* Visitor Button */}
           <MotionLink
-            to=""
+            to="/visitor"
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.02 }}
-            className="flex-1 min-h-[120px] bg-zinc-800 rounded-lg p-4 text-white font-semibold hidden flex-col justify-between"
+            className="w-full sm:w-[42%] md:w-[400px] min-h-[220px] sm:min-h-[230px] md:min-h-[250px] bg-zinc-800 rounded-4xl p-5 sm:p-6 md:p-6 text-white font-semibold flex flex-col justify-between"
           >
-            <p className="mb-4 text-base md:text-lg">No, I'm a visitor</p>
+            <p className="mb-3 sm:mb-4 text-base sm:text-base md:text-lg text-left">
+              No, I'm a visitor
+            </p>
             <div className="flex justify-end">
-              <div className="w-9 h-9 border border-gray-400 flex items-center justify-center rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#ff9500"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                  <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.348 0 .686 .045 1.008 .128" />
-                  <path d="M19 16v3" />
-                  <path d="M19 22v.01" />
-                </svg>
+              <div className="w-10 h-10 flex items-center justify-center">
+                <FaUser className="text-[#2989de] text-3xl" />
               </div>
             </div>
           </MotionLink>

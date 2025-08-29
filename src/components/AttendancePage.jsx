@@ -1,140 +1,155 @@
-import React, { useEffect } from "react";
 import NavBar from "./NavBar";
-import sukuLogo from "../assets/logo.png";
-import sukuLogo1 from "../assets/bellLogo.jpg";
 import { Link } from "react-router-dom";
+import bgImage from "../assets/Background.jpg";
 import { motion } from "framer-motion";
+import GoodDay from "./GoodDay";
+import { FaBox } from "react-icons/fa";
+import { MdLocalShipping } from "react-icons/md";
 
 const MotionLink = motion(Link);
 
 const AttendancePage = () => {
-  const greetingTime = () => {
-    const getTime = new Date().getHours();
-    if (getTime < 12) return "Good Morning";
-    if (getTime < 18) return "Good Afternoon";
-    return "Good Evening";
-  };
-
-  useEffect(() => {
-    greetingTime();
-  }, []);
-
   return (
-    <div className="bg-black min-h-screen flex flex-col p-4">
+    <div
+      className="min-h-screen flex flex-col bg-no-repeat bg-cover bg-center p-4 sm:p-6 md:p-6"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
+      {/* Navbar */}
       <NavBar />
 
       {/* Responsive Flex Container */}
       <motion.div
-        className="flex flex-col md:flex-row w-full flex-grow gap-4"
+        className="flex flex-col md:flex-row items-center justify-center w-full sm:w-[90%] md:w-[70%] px-3 sm:px-4 md:px-8 gap-4 sm:gap-6 md:gap-6 py-4 sm:py-6 md:py-6 bg-black/85 rounded-4xl mx-auto my-auto"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        {/* Image Section */}
+        {/* Text Section */}
         <motion.div
-          className="hidden md:flex w-full md:w-1/2 h-auto md:h-[80%] md:max-h-[530px] items-center justify-center rounded-lg overflow-hidden"
+          className="flex w-full md:w-1/2 h-auto items-center justify-center rounded-lg overflow-hidden"
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
         >
-          <motion.img
-            src={sukuLogo1}
-            alt="Attendance Illustration"
-            className="w-full h-[90%] object-cover rounded-lg"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 200 }}
-          />
+          <GoodDay />
         </motion.div>
 
         {/* Right Section */}
         <motion.div
-          className="w-full md:w-1/2 h-80 flex flex-col justify-between gap-6"
+          className="w-full md:w-1/2 flex flex-col h-auto md:h-[450px] justify-start gap-4 sm:gap-6 md:gap-8 p-3 sm:p-4 md:p-4"
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
         >
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-white pb-2">
-            <img
-              src={sukuLogo}
-              alt="suku-logo"
-              className="h-24 md:h-28 w-auto rounded-lg object-contain"
-            />
-            <p className="text-white font-bold text-2xl md:text-3xl">
-              Front Desk
-            </p>
-          </div>
+          {/* Icon */}
+          <motion.div
+            className="flex justify-center md:justify-end"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
+            <div className="relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="60" // smaller on mobile
+                height="60"
+                viewBox="0 0 24 24"
+                fill="#2989de"
+                stroke="black"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect
+                  x="3"
+                  y="5"
+                  width="18"
+                  height="16"
+                  rx="3"
+                  ry="3"
+                  stroke="black"
+                  fill="#2989de"
+                />
+                <path d="M16 3v4" />
+                <path d="M8 3v4" />
+                <path d="M3 11h18" />
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="3.8"
+                  stroke="black"
+                  strokeWidth="1.2"
+                  fill="#2989de"
+                />
+                <path d="M16.6 18l1 1l2-2" stroke="black" strokeWidth="1.2" />
+              </svg>
+            </div>
+          </motion.div>
 
-          {/* Greeting and Buttons */}
-          <div className="flex flex-col gap-6">
-            <motion.p
-              className="text-white font-bold text-xl md:text-2xl text-center md:text-left"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-            >
-              {greetingTime()}! Why are you here?
-            </motion.p>
+          {/* Buttons Column */}
+          <div className="flex flex-col gap-3 sm:gap-4 md:gap-4 justify-center h-full">
+            {/* Check into Workspace */}
+            <div className="group">
+              <MotionLink
+                to="/identityCheck"
+                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.02 }}
+                className="relative w-full min-h-[90px] sm:min-h-[100px] md:min-h-[100px] bg-white group-hover:bg-[#2989de] group-hover:text-white text-black p-4 sm:p-6 md:p-6 rounded-3xl font-bold flex items-center justify-center shadow-md"
+              >
+                <p className="text-center text-sm sm:text-base md:text-base">
+                  Check into Workspace
+                </p>
+                <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="60"
+                    height="60"
+                    viewBox="0 0 24 24"
+                    className="fill-white stroke-[#2989de] group-hover:fill-white group-hover:stroke-[#2989de]"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle
+                      cx="12"
+                      cy="7"
+                      r="4"
+                      className="fill-black stroke-white group-hover:fill-white group-hover:stroke-[#2989de]"
+                    />
+                    <path
+                      d="M4 21v-2c0-3.3 3.6-6 8-6s8 2.7 8 6v2z"
+                      className="fill-black stroke-white group-hover:fill-white group-hover:stroke-[#2989de]"
+                    />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="3.8"
+                      className="fill-black stroke-white group-hover:fill-white group-hover:stroke-[#2989de]"
+                      strokeWidth="1.4"
+                    />
+                    <path
+                      d="M16.6 18l1 1l2-2"
+                      className="stroke-white group-hover:stroke-[#2989de]"
+                      strokeWidth="1.4"
+                    />
+                  </svg>
+                </div>
+              </MotionLink>
+            </div>
 
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="group">
               {/* Deliver Packages */}
               <MotionLink
                 to=""
                 whileTap={{ scale: 0.97 }}
                 whileHover={{ scale: 1.02 }}
-                className="w-full hidden md:w-1/2 flex-1 min-h-[130px] bg-zinc-800 text-white p-4 rounded-lg font-bold flex-col justify-between"
+                className="relative w-full min-h-[90px] sm:min-h-[100px] md:min-h-[100px] bg-white text-black p-4 sm:p-6 md:p-6 rounded-3xl font-bold flex items-center justify-center shadow-md group-hover:text-white group-hover:bg-[#2989de] "
               >
-                <p>Deliver Packages</p>
-                <div className="flex justify-end">
-                  <div className="w-9 h-9 border border-gray-400 flex items-center justify-center rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#ff6b22"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M12 21l-8 -4.5v-9l8 -4.5l8 4.5v4.5" />
-                      <path d="M12 12l8 -4.5" />
-                      <path d="M12 12v9" />
-                      <path d="M12 12l-8 -4.5" />
-                      <path d="M15 18h7" />
-                      <path d="M19 15l3 3l-3 3" />
-                    </svg>
-                  </div>
-                </div>
-              </MotionLink>
-
-              {/* Check into Workspace */}
-              <MotionLink
-                to="/identityCheck"
-                whileTap={{ scale: 0.97 }}
-                whileHover={{ scale: 1.02 }}
-                className="w-full md:w-1/2 flex-1 min-h-[130px] bg-zinc-800 text-white p-4 rounded-lg font-bold flex flex-col justify-between"
-              >
-                <p>Check into Workspace</p>
-                <div className="flex justify-end">
-                  <div className="w-9 h-9 border border-gray-400 flex items-center justify-center rounded-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#ff6b22"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M20.942 13.021a9 9 0 1 0 -9.407 7.967" />
-                      <path d="M12 7v5l3 3" />
-                      <path d="M15 19l2 2l4 -4" />
-                    </svg>
-                  </div>
+                <p className="text-center text-sm sm:text-base md:text-base">
+                  Deliver Packages
+                </p>
+                <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 w-8 sm:w-10 h-8 sm:h-10  flex items-center justify-center r">
+                  <FaBox className="text-black text-sm sm:text-lg md:text-2xl group-hover:text-white" />
                 </div>
               </MotionLink>
             </div>

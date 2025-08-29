@@ -6,6 +6,8 @@ import Loading from "./Loading";
 import useAttendanceStore from "../../store/useAttendanceStore";
 import { MdCallEnd } from "react-icons/md";
 import { FiCamera } from "react-icons/fi";
+import { FaArrowLeft} from "react-icons/fa";
+import bgImage from "../assets/Background.jpg"
 
 const CheckinPage = () => {
   const [pin, setPin] = useState("");
@@ -167,52 +169,56 @@ const CheckinPage = () => {
   const isLoading = !!loadingType && loading;
 
   return (
-    <div className="bg-black min-h-screen w-full flex flex-col p-4 text-white">
+    <div
+      className="min-h-screen w-full flex flex-col p-4 text-white bg-no-repeat bg-cover bg-center "
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <Link to="/identityCheck" className="mb-4">
-        <div className="flex items-center gap-2 text-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#ffffff"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-          <p className="text-sm md:text-base">Back</p>
+        <div className="flex items-center justify-center w-[20%] sm:w-[15%] md:w-[9%] gap-2 px-5 py-2 bg-[#2989de] text-white font-semibold rounded-full hover:bg-[#2989de]/80 shadow-md hover:scale-105 transition-all duration-200 z-20">
+          <FaArrowLeft />
+          <p className="hidden md:block text-sm md:text-base">Back</p>
         </div>
       </Link>
 
       {!showCamera ? (
         <div className="flex flex-col items-center justify-center flex-1">
-          <h1 className="text-2xl md:text-3xl font-semibold mb-2 text-center">
-            Enter Your Staff <strong>PIN</strong>
-          </h1>
-          <p className="text-sm text-gray-300 text-center mb-4 max-w-md">
-            For security reasons, please enter your unique Staff PIN to proceed
-            with check-in or check-out.
-          </p>
+          <div className="bg-black/90 flex flex-col items-center justify-center flex-1 p-7 md:-mt-4  rounded-4xl">
+            <h1 className="text-2xl md:text-3xl font-semibold mb-2 text-center">
+              Enter Your Staff <strong>PIN</strong>
+            </h1>
+            <p className="text-sm text-gray-300 text-center mb-4 max-w-md">
+              For security reasons, please enter your unique Staff PIN to
+              proceed with check-in or check-out.
+            </p>
 
-          <div className="fixed hidden  bottom-4 left-4 bg-black text-white px-4 py-3 rounded-lg shadow-lg md:flex flex-col gap-1 text-sm z-50">
-            <span>⌨️ Enter → Check-In</span>
-            <span>⌨️ Shift + Enter → Check-Out</span>
-          </div>
+            <div className="fixed hidden  bottom-4 left-4 bg-black text-white px-4 py-3 rounded-lg shadow-lg md:flex flex-col gap-1 text-sm z-50">
+              <span>⌨️ Enter → Check-In</span>
+              <span>⌨️ Shift + Enter → Check-Out</span>
+            </div>
 
-          <div className="mb-4 text-2xl tracking-widest font-mono border border-gray-700 rounded-xl px-4 py-1 min-w-[220px] h-10 text-center shadow-sm bg-zinc-900 text-gray-500">
-            {pin.split("").map((_, index) => (
-              <span key={index} className="mx-1">
-                •
-              </span>
-            ))}
-          </div>
+            <div className="mb-4 text-2xl tracking-widest font-mono border-3 border-white rounded-xl px-4 py-1 min-w-[220px] h-10 text-center shadow-sm bg-zinc-900 text-gray-500">
+              {pin.split("").map((_, index) => (
+                <span key={index} className="mx-1">
+                  •
+                </span>
+              ))}
+            </div>
 
-          <div className="grid grid-cols-3 gap-4 max-w-xs mb-8">
-            {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "del"].map(
-              (key, index) => (
+            <div className="grid grid-cols-3 gap-4 max-w-xs mb-8">
+              {[
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "",
+                "0",
+                "del",
+              ].map((key, index) => (
                 <button
                   key={index}
                   className={`text-xl h-16 w-16 flex items-center justify-center rounded-full transition-all duration-200 font-semibold ${
@@ -222,8 +228,8 @@ const CheckinPage = () => {
                         : "bg-red-700 hover:bg-red-600"
                       : key
                       ? activeKey === key
-                        ? "bg-gray-900"
-                        : "bg-gray-800 hover:bg-gray-700"
+                        ? "bg-[#024b8a]"
+                        : "bg-[#2989de] hover:bg-[#024b8a]"
                       : "pointer-events-none"
                   }`}
                   onClick={() => handleKeyClick(key)}
@@ -231,35 +237,35 @@ const CheckinPage = () => {
                 >
                   {key === "del" ? "⌫" : key}
                 </button>
-              )
-            )}
-          </div>
+              ))}
+            </div>
 
-          <div className="flex gap-6">
-            <button
-              onClick={() => handleCheck("Check In")}
-              className={`bg-green-600 hover:bg-green-500 px-6 py-2 rounded-full text-white font-semibold ${
-                isLoading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-              disabled={isLoading}
-            >
-              {loadingType === "Check In" ? <Loading /> : <>Check In</>}
-            </button>
-            <button
-              onClick={() => handleCheck("Check Out")}
-              className={`bg-yellow-600 hover:bg-yellow-500 px-6 py-2 rounded-full text-white font-semibold ${
-                isLoading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-              disabled={isLoading}
-            >
-              {loadingType === "Check Out" ? <Loading /> : <>Check Out</>}
-            </button>
+            <div className="flex gap-6">
+              <button
+                onClick={() => handleCheck("Check In")}
+                className={`bg-green-600 hover:bg-green-500 px-6 py-2 rounded-full text-white font-semibold ${
+                  isLoading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+                disabled={isLoading}
+              >
+                {loadingType === "Check In" ? <Loading /> : <>Check In</>}
+              </button>
+              <button
+                onClick={() => handleCheck("Check Out")}
+                className={`bg-yellow-600 hover:bg-yellow-500 px-6 py-2 rounded-full text-white font-semibold ${
+                  isLoading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+                disabled={isLoading}
+              >
+                {loadingType === "Check Out" ? <Loading /> : <>Check Out</>}
+              </button>
+            </div>
           </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center flex-1">
-          <h2 className="text-xl font-bold bg-zinc-900 mb-2 p-4 rounded-lg">
-            {cameraError ? "⚠️ Camera Error" : "Take a quick selfie"}
+          <h2 className="text-xl font-extrabold bg-zinc-900 rounded-lg">
+            {cameraError ? "⚠️ Camera Error" : "Take a selfie"}
           </h2>
 
           {cameraError && (
@@ -280,7 +286,9 @@ const CheckinPage = () => {
               console.error("Camera error", err);
               setCameraError("Camera access denied or not supported");
             }}
-            className="rounded-lg w-200 h-100"
+            className="rounded-lg border-4 border-white 
+             w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] 
+             h-auto mx-auto"
           />
 
           <div className="w-full flex justify-center items-center gap-3 mt-4">
