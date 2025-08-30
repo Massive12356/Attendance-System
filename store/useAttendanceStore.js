@@ -68,9 +68,8 @@ const useAttendanceStore = create((set, get) => ({
       // Background sync
       get().fetchAllAttendance(true);
     } catch (error) {
-      set({
-        error: error.response?.data?.message || "Check-in failed.",
-      });
+      console.log("ERROR IN STORE: ", error);
+      throw new Error(error.response?.data?.message);
     } finally {
       set({ loading: false });
     }
@@ -95,9 +94,8 @@ const useAttendanceStore = create((set, get) => ({
       // Background sync
       get().fetchAllAttendance(true);
     } catch (error) {
-      set({
-        error: error.response?.data?.message || "Check-out failed.",
-      });
+      console.log("ERROR IN STORE: ", error);
+      throw new Error(error.response?.data?.message);
     } finally {
       set({ loading: false });
     }

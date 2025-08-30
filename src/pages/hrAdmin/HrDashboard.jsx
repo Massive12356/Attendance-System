@@ -4,7 +4,6 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { MdCancel, MdSave } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
-import sukuLogo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { exportToExcel } from "../../utils/exportToExcel";

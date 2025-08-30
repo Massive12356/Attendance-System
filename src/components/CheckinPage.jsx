@@ -79,8 +79,11 @@ const CheckinPage = () => {
       try {
         await checkOutAttendance(pin);
         toast.success("Checked-Out successfully");
+        console.log("success");
         navigate("/");
-      } catch {
+      } catch (err) {
+        toast.error(err.message || "An error Occurred");
+        console.log(err);
       } finally {
         setLoadingType(null);
       }
@@ -117,7 +120,7 @@ const CheckinPage = () => {
       navigate("/");
     } catch (err) {
       console.error("Capture/Submit failed:", err);
-      toast.error("Failed to submit check-in");
+      toast.error(err.message || "Error checking in");
       setCameraError("Submission failed");
     } finally {
       setIsCapturing(false);
@@ -126,16 +129,6 @@ const CheckinPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
-      resetStatus();
-    }
-    if (error) {
-      toast.error(error);
-      resetStatus();
-    }
-  }, [successMessage, error]);
 
   useEffect(() => {
     fetchAllAttendance(true);
