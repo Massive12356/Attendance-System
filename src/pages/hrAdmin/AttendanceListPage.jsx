@@ -340,7 +340,48 @@ const AttendanceListPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-
+          {loading ? (
+            <div className="flex flex-col items-center justify-center gap-3">
+              <svg
+                className="animate-spin h-10 w-10"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <defs>
+                  <linearGradient
+                    id="spinnerGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" stopColor="#1e3a8a" /> {/* Deep Blue */}
+                    <stop offset="50%" stopColor="#3b82f6" /> {/* Light Blue */}
+                    <stop offset="100%" stopColor="#7c3aed" /> {/* Purple */}
+                  </linearGradient>
+                </defs>
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="url(#spinnerGradient)"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="url(#spinnerGradient)"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                ></path>
+              </svg>
+              <span className="text-base font-semibold text-gray-700 animate-pulse">
+                Fetching attendance...
+              </span>
+            </div>
+          ) : (
+            filteredAttendees.map(entry)
+          )}
         </div>
       )}
     </div>
