@@ -45,9 +45,6 @@ const CheckinPage = () => {
     checkInAttendance,
     checkOutAttendance,
     loading,
-    error,
-    successMessage,
-    resetStatus,
     fetchAllAttendance,
   } = useAttendanceStore();
 

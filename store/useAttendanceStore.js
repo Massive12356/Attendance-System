@@ -48,10 +48,12 @@ const useAttendanceStore = create((set, get) => ({
       set({ attendees: res.data.attendance.reverse() });
       set({ loading: false });
     } catch (error) {
-      console.log("ERROR IN STATE : ", error)
+      console.log("ERROR IN STATE : ", error);
       throw new Error(error.response?.data?.message);
     }
   },
+
+
 
   checkInAttendance: async (formData) => {
     set({ loading: true, error: null, successMessage: null });
@@ -112,7 +114,7 @@ const useAttendanceStore = create((set, get) => ({
       // Force refresh attendee list after registration
       await get().fetchAllAttendees(true);
     } catch (error) {
-      console.log("ERROR IN STATE : ", error)
+      console.log("ERROR IN STATE : ", error);
       throw new Error(error.response?.data?.message);
     } finally {
       set({ loading: false });

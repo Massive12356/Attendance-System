@@ -27,3 +27,5 @@ export const postAttendanceOut = async (payload) => {
 export const createAttendee = async (payload) => {
   return apiClient.post('/attendee', payload);
 };
+
+
