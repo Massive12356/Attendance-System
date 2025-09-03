@@ -110,9 +110,8 @@ const useAttendanceStore = create((set, get) => ({
       // Force refresh attendee list after registration
       await get().fetchAllAttendees(true);
     } catch (error) {
-      set({
-        error: error.response?.data?.message || "Failed to register attendee.",
-      });
+      console.log("ERROR IN STORE: ", error);
+      throw new Error(error.response?.data?.message)
     } finally {
       set({ loading: false });
     }

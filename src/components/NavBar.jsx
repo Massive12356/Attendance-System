@@ -3,18 +3,19 @@ import sukuLogo from "../assets/suku logo variant.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import techhub from '../assets/New.png'
 
 const MotionLink = motion(Link);
 
 const NavBar = () => {
   return (
     <header>
-      <div className="flex mb-4 items-center justify-between p-2 overflow-hidden">
+      <div className="flex mb-4 items-center justify-between overflow-hidden">
         {/* Logo */}
         <img
-          src={sukuLogo}
+          src={techhub}
           alt="suku-logo"
-          className="h-10 w-auto md:h-20 lg:h-24 object-contain rounded-lg"
+          className="h-10 w-auto md:h-40 lg:h-33 object-contain rounded-lg"
         />
 
         {/* Sign In Button */}

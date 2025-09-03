@@ -18,6 +18,8 @@ const CheckinPage = lazy(()=>import('./components/CheckinPage'));
 const IdentityCheckPage = lazy(()=>import('./components/IdentityCheckPage'));
 const DarkText = lazy(()=>import('./components/DarkText'));
 const AttendanceListPage = lazy(()=>import('./pages/hrAdmin/AttendanceListPage'))
+const Attendance = lazy(()=>import('./pages/hrAdmin/Attendance'))
+const CreateStaff = lazy(()=>import('./pages/hrAdmin/CreateStaff'))
 
 function App() {
 
@@ -90,6 +92,8 @@ function App() {
             >
               <Route index element={<HrDashboard />} />
               <Route path="attendList" element={<AttendanceListPage />} />
+              <Route path='attend' element={<Attendance/>}/>
+              <Route path='create' element={<CreateStaff/>}/>
             </Route>
           </Routes>
         </Suspense>
