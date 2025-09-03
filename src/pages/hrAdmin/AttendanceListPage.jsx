@@ -13,7 +13,14 @@ const AttendanceListPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [formData, setFormData] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    workID: "",
+    role: "",
+    email: "",
+    position: "",
+    contact: "",
+  });
   const tableRef = useRef();
 
   const {
@@ -21,9 +28,6 @@ const AttendanceListPage = () => {
     fetchAllAttendees,
     loading,
     registerAttendee,
-    error,
-    successMessage,
-    resetStatus,
   } = useAttendanceStore();
 
   useEffect(() => {
@@ -100,7 +104,7 @@ const AttendanceListPage = () => {
 
   // handling search and filter by date logic
   const filteredAttendees = attendees.filter((attendee) => {
-    // Text search filter (safe with optional chaining)
+    // Text search filter(safe with optional chaining)
     const matchSearch =
       attendee.position?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       attendee.fullName?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -133,30 +137,25 @@ const AttendanceListPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await registerAttendee(formData);
-    toast.success("Attendee registered successfully.");
-    setFormData({
-      fullName: "",
-      workID: "",
-      role: "",
-      email: "",
-      position: "",
-      contact: "",
-    });
-    setShowModal(false);
+    try {
+      await registerAttendee(formData);
+      toast.success("Attendee registered successfully.");
+      setFormData({
+        fullName: "",
+        workID: "",
+        role: "",
+        email: "",
+        position: "",
+        contact: "",
+      });
+      setShowModal(false);
+    } catch (error) {
+      toast.error(error.message || "An error Occurred");
+      console.log(error);
+    }
+    
   };
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      resetStatus();
-    }
-
-    if (successMessage) {
-      toast.success(successMessage);
-      resetStatus();
-    }
-  }, [error, successMessage]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F4F2EE] p-4 overflow-hidden">
@@ -220,7 +219,7 @@ const AttendanceListPage = () => {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowModal(true)}
-            className="flex items-center justify-center gap-2 bg-blue-900 hover:bg-blue-950 cursor-pointer px-4 py-2 rounded-lg text-white font-semibold w-full sm:w-auto"
+            className="hidden items-center justify-center gap-2 bg-blue-900 hover:bg-blue-950 cursor-pointer px-4 py-2 rounded-lg text-white font-semibold w-full sm:w-auto"
           >
             <AiOutlineUserAdd size={20} /> Create Attendee
           </motion.button>
@@ -419,15 +418,31 @@ const AttendanceListPage = () => {
                 <label className="text-sm text-gray-600 font-medium">
                   Position
                 </label>
-                <input
-                  type="text"
-                  name="position"
+                <select
+                  className="px-4 py-2 border rounded-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400"
                   value={formData.position}
+                  name="position"
                   onChange={handleChange}
-                  placeholder="e.g. Developer, HR Officer"
-                  className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
-                />
+                >
+                  <option value="" disabled>
+                    Select Role
+                  </option>
+                  <option value="CEO">CEO</option>
+                  <option value="CONSULTANT">CONSULTANT</option>
+                  <option value="DEVELOPER">DEVELOPER</option>
+                  <option value="MARKETING/SALES OFFICER">
+                    MARKETING/SALES OFFICER
+                  </option>
+                  <option value="MARKETING/SALES LEAD">
+                    MARKETING/SALES LEAD
+                  </option>
+                  <option value="OPERATIONS LEAD">OPERATIONS LEAD</option>
+                  <option value="TECHNICAL LEAD">TECHNICAL LEAD</option>
+                  <option value="INTERN">INTERN</option>
+                  <option value="SERVICE PERSONNEL">SERVICE PERSONNEL</option>
+                </select>
               </div>
+
 
               <div className="flex justify-end gap-3 mt-5">
                 <button

@@ -28,8 +28,9 @@ const useAttendanceStore = create((set, get) => ({
       const res = await getAllAttendance();
       set({ attendances: res.data.attendance.reverse() });
       set({ loading: false });
-    } catch (err) {
-      set({ error: err.message, loading: false });
+    } catch (error) {
+      console.log("ERROR IN STATE : ", error);
+      throw new Error(error.response?.data?.message);
     }
   },
 
@@ -46,8 +47,9 @@ const useAttendanceStore = create((set, get) => ({
       const res = await getAllAttendee();
       set({ attendees: res.data.attendance.reverse() });
       set({ loading: false });
-    } catch (err) {
-      set({ error: err.message, loading: false });
+    } catch (error) {
+      console.log("ERROR IN STATE : ", error)
+      throw new Error(error.response?.data?.message);
     }
   },
 
@@ -110,9 +112,8 @@ const useAttendanceStore = create((set, get) => ({
       // Force refresh attendee list after registration
       await get().fetchAllAttendees(true);
     } catch (error) {
-      set({
-        error: error.response?.data?.message || "Failed to register attendee.",
-      });
+      console.log("ERROR IN STATE : ", error)
+      throw new Error(error.response?.data?.message);
     } finally {
       set({ loading: false });
     }

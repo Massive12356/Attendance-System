@@ -14,7 +14,14 @@ const HrDashboard = () => {
   const [logoutModal, setLogoutModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [formData, setFormData] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    role: "",
+    email: "",
+    contact:"",
+    position:"",
+    workID: ""
+  });
   const [viewMode, setViewMode] = useState("table"); // "table" | "cards"
   const tableRef = useRef();
   const navigate = useNavigate();
@@ -24,9 +31,6 @@ const HrDashboard = () => {
     attendees,
     loading,
     registerAttendee,
-    successMessage,
-    error,
-    resetStatus,
   } = useAttendanceStore();
   const fetchAllAttendance = useAttendanceStore(
     (state) => state.fetchAllAttendance
@@ -135,29 +139,25 @@ const HrDashboard = () => {
   // handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerAttendee(formData);
-    toast.success("Attendee registered successfully.");
-    setFormData({
-      fullName: "",
-      role: "",
-      email: "",
-      contact: "",
-      position: "",
-      workID: "",
-    });
-    setShowModal(false);
-  };
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      resetStatus();
+    try {
+        await registerAttendee(formData);
+        toast.success("Attendee registered successfully.");
+        setFormData({
+          fullName: "",
+          role: "",
+          email: "",
+          contact: "",
+          position: "",
+          workID: "",
+        });
+        setShowModal(false);
+    } catch (error) {
+       toast.error(error.message || "An error Occurred");
+       console.log(error);
     }
-    if (successMessage) {
-      toast.success(successMessage);
-      resetStatus();
-    }
-  }, [error, successMessage]);
+  
+  };
 
   // function to handle export data to excel
   const handleExportExcel = () => {
@@ -197,6 +197,8 @@ const HrDashboard = () => {
   const cancelLogOut = () => {
     setLogoutModal(false);
   };
+
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F4F2EE] p-4 overflow-hidden">
       {/* Top Nav */}
@@ -518,7 +520,6 @@ const HrDashboard = () => {
                   </option>
                   <option value="admin">Admin</option>
                   <option value="member">Member</option>
-                  <option value="visitor">Visitor</option>
                 </select>
               </div>
 
@@ -554,14 +555,27 @@ const HrDashboard = () => {
                 <label className="text-sm text-gray-600 font-medium">
                   Position
                 </label>
-                <input
-                  type="text"
-                  name="position"
+                <select
+                  className="px-4 py-2 border rounded-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400"
                   value={formData.position}
+                  name="position"
                   onChange={handleChange}
-                  placeholder="e.g. Developer, HR Officer"
-                  className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
-                />
+                >
+                  <option value="" disabled>Select Role</option>
+                  <option value="CEO">CEO</option>
+                  <option value="CONSULTANT">CONSULTANT</option>
+                  <option value="DEVELOPER">DEVELOPER</option>
+                  <option value="MARKETING/SALES OFFICER">
+                    MARKETING/SALES OFFICER
+                  </option>
+                  <option value="MARKETING/SALES LEAD">
+                    MARKETING/SALES LEAD
+                  </option>
+                  <option value="OPERATIONS LEAD">OPERATIONS LEAD</option>
+                  <option value="TECHNICAL LEAD">TECHNICAL LEAD</option>
+                  <option value="INTERN">INTERN</option>
+                  <option value="SERVICE PERSONNEL">SERVICE PERSONNEL</option>
+                </select>
               </div>
 
               <div className="flex justify-end gap-3 mt-5">
