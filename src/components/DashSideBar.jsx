@@ -15,13 +15,17 @@ import {
   Settings,
   UserIcon,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
+
 
 const DashSideBar = ({ isOpen, setIsOpen, isCollapsed }) => {
   const [openEmployees, setOpenEmployees] = useState(false);
   const [openOrganization, setOrganization] = useState(false);
-
+  const [showModal , setShowModal] = useState(false);
+  const navigate = useNavigate();
+  
   const toggleEmployees = () => setOpenEmployees((prev) => !prev);
   const toggleOrganization = () => setOrganization((prev) => !prev);
 
@@ -29,6 +33,19 @@ const DashSideBar = ({ isOpen, setIsOpen, isCollapsed }) => {
     "flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-900 font-medium rounded-lg";
   const normalLink =
     "flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 transition-all duration-200 rounded-lg";
+
+    const popupModal = ()=>{
+      setShowModal(true);
+    }
+
+    const handleLogout = () => {
+      setShowModal(false);
+      navigate("/");
+    };
+
+    const cancelLogOut = () => {
+      setShowModal(false);
+    };
 
   return (
     <>
@@ -131,19 +148,19 @@ const DashSideBar = ({ isOpen, setIsOpen, isCollapsed }) => {
                   </NavLink>
 
                   <NavLink
-                    to="/insight-center/employees"
+                    to="/insight-center/attend"
                     className={({ isActive }) =>
                       isActive
                         ? activeLink + " text-sm"
                         : normalLink + " text-sm"
                     }
                   >
-                    <Calendar size={16} />
-                    List Attendance
+                    <FileText size={16} />
+                    Stat Attendance
                   </NavLink>
 
                   <NavLink
-                    to="/insight-center/employees"
+                    to="/insight-center/view"
                     className={({ isActive }) =>
                       isActive
                         ? activeLink + " text-sm"
@@ -215,23 +232,68 @@ const DashSideBar = ({ isOpen, setIsOpen, isCollapsed }) => {
 
         {/* Footer */}
         <div className="border-t border-gray-200 mt-auto space-y-2 pt-2">
-          <NavLink
-            to="/hr/settings"
+          {/* <NavLink
+            to=""
             className={({ isActive }) => (isActive ? activeLink : normalLink)}
           >
             <Settings size={16} />
             {!isCollapsed && "Settings"}
-          </NavLink>
+          </NavLink> */}
 
           <button
-            onClick={() => console.log("Logging out...")}
+            onClick={popupModal}
             className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-100 transition-all duration-200 w-full"
           >
             <FaSignOutAlt size={16} />
             {!isCollapsed && "Logout"}
           </button>
         </div>
+
+        {/* confirm modal popUp */}
       </motion.aside>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-[9999] p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full"
+          >
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-100">
+                <FaSignOutAlt className="text-red-500 text-xl" />
+              </div>
+            </div>
+
+            {/* Subtext */}
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to log out? You’ll need to sign in again to
+              access your dashboard.
+            </p>
+
+            {/* Footer buttons */}
+            <div className="flex justify-end gap-3">
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={cancelLogOut}
+                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+              >
+                Cancel
+              </motion.button>
+
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+              >
+                Yes, Log Out
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </>
   );
 };

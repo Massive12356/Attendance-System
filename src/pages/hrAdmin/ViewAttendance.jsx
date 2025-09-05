@@ -14,25 +14,30 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  BadgeCheck
+  BadgeCheck,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import sukuLogo from "../../assets/logo.png";
 import useAttendanceStore from "../../../store/useAttendanceStore"; // from zustand
 import { exportToExcel } from "../../utils/exportToExcel";
 
-const AttendanceListPage = () => {
+const ViewAttendance = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState(false);
   const [viewMode, setViewMode] = useState("");
   const tableRef = useRef();
 
-  const { attendees, fetchAllAttendees, loading } = useAttendanceStore();
+  const { attendees, fetchAllAttendees, loading, attendances } =
+    useAttendanceStore();
 
   useEffect(() => {
     fetchAllAttendees();
   }, [fetchAllAttendees]);
+
+  const fetchAllAttendance = useAttendanceStore(
+    (state) => state.fetchAllAttendance
+  );
 
   const handlePrint = () => {
     const printContents = tableRef.current.innerHTML;
@@ -103,7 +108,7 @@ const AttendanceListPage = () => {
   };
 
   // handling search and filter by date logic
-  const filteredAttendees = attendees.filter((attendee) => {
+  const filteredAttendance = attendances.filter((attendee) => {
     // Text search filter (safe with optional chaining)
     const matchSearch =
       attendee.position?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -129,11 +134,11 @@ const AttendanceListPage = () => {
 
   // handle export
   const handleExport = () => {
-    if (!filteredAttendees.length) {
+    if (!filteredAttendance.length) {
       toast.error("No attendance data to export.");
       return;
     }
-    const dataToExport = filteredAttendees.map((entry) => ({
+    const dataToExport = filteredAttendance.map((entry) => ({
       "Staff ID": entry.staffID,
       "Full Name": entry.fullName,
       Position: entry.position,
@@ -148,6 +153,23 @@ const AttendanceListPage = () => {
     );
   };
 
+  const getFullName = (staffID) => {
+    const person = attendees.find((a) => a.staffID === staffID);
+    return person?.fullName || "Unknown";
+  };
+
+  const getRole = (staffID) => {
+    const person = attendees.find((a) => a.staffID === staffID);
+    return person?.role || "";
+  };
+
+  useEffect(() => {
+    fetchAllAttendance(true);
+    const interval = setInterval(() => {
+      fetchAllAttendance(true);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [fetchAllAttendance]);
   return (
     <div className="space-y-6">
       {/* Watermark hidden from screen but useful for structure */}
@@ -230,22 +252,19 @@ const AttendanceListPage = () => {
               <thead className="bg-gray-50 rounded-t-lg">
                 <tr>
                   <th className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Staff ID
+                    STAFF DETAILS
                   </th>
                   <th className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Full Name
+                    DATE
                   </th>
                   <th className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Position
+                    CHECK-IN
                   </th>
                   <th className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
+                    CHECK-OUT
                   </th>
                   <th className="px-6 py-2 text-left text-xs font-medium text-gray-500 d uppercase tracking-wider">
-                    Contact
-                  </th>
-                  <th className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Role
+                    STATUS
                   </th>
                 </tr>
               </thead>
@@ -296,49 +315,70 @@ const AttendanceListPage = () => {
                       </div>
                     </td>
                   </tr>
-                ) : filteredAttendees.length === 0 ? (
+                ) : filteredAttendance.length === 0 ? (
                   <tr>
                     <td colSpan="6" className="text-center py-6 text-gray-500">
                       No Attendees records found
                     </td>
                   </tr>
                 ) : (
-                  filteredAttendees.map((entry) => (
+                  filteredAttendance.map((entry) => (
                     <tr
                       key={entry._id}
                       className="hover:bg-gray-50 transition-colors duration-200 border border-gray-200"
                     >
-                      <td className="py-5  px-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {entry.staffID}
+                      {/* ✅ Staff Details */}
+                      <td className="py-4 px-3 text-sm font-medium text-gray-900">
+                        <div className="flex items-center gap-3">
+                          {/* staff image */}
+                          <img
+                            src={entry.images?.[0]}
+                            alt={entry.fullName}
+                            className="w-12 h-12 rounded-full object-cover border"
+                          />
+
+                          {/* text content */}
+                          <div>
+                            <div className="flex items-center gap-1">
+                              <span>{getFullName(entry.staffID)}</span>
+                              {getRole(entry.staffID) === "admin" && (
+                                <BadgeCheck className="w-4 h-4 text-yellow-600" />
+                              )}
+                            </div>
+                            <p className="text-xs mt-1 text-gray-500">
+                              {entry.staffID} • {entry.position}
+                            </p>
+                          </div>
+                        </div>
                       </td>
 
-                      <td className="py-4  flex gap-2 px-3 text-nowrap text-sm font-medium text-gray-900">
-                        {entry.role === "admin" ? (
-                          <BadgeCheck className="w-5 h-5 text-yellow-800" />
-                        ) : (
-                          ""
-                        )}
-                        {entry.fullName}
+                      {/* ✅ Other columns remain same */}
+                      <td className="py-4 px-3 whitespace-nowrap text-sm text-gray-900">
+                        {new Date(entry.date).toLocaleDateString()}
                       </td>
-                      <td className="py-4  px-4 whitespace-nowrap  text-sm font-medium text-gray-900">
-                        <p className="ml-1">{entry.position}</p>
+                      <td className="py-4 px-3 whitespace-nowrap text-sm text-gray-900">
+                        {entry.checkIn}
                       </td>
-                      <td className="py-4 px-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {entry.email}
+                      <td className="py-4 px-3 whitespace-nowrap text-sm text-gray-900">
+                        {entry.checkOut || "-"}
                       </td>
-                      <td className="py-4 px-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {entry.contact}
-                      </td>
-                      <td className="py-4 px-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                        <span
-                          className={`px-3 py-1 rounded-lg ${
-                            entry.role === "admin"
-                              ? "bg-yellow-100 text-yellow-800"
+                      <td className="py-4 px-3 whitespace-nowrap text-sm text-gray-900">
+                        <div
+                          className={`mt-1 inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium ${
+                            entry.status === "late"
+                              ? "bg-red-100 text-red-800"
                               : "bg-green-100 text-green-800"
                           }`}
                         >
-                          {entry.role}
-                        </span>
+                          {entry.status === "late" ? (
+                            <XCircle className="w-4 h-4 text-red-600" />
+                          ) : (
+                            <CheckCircle className="w-4 h-4 text-green-600" />
+                          )}
+                          <span>
+                            {entry.status === "late" ? "Late" : "On Time"}
+                          </span>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -388,48 +428,66 @@ const AttendanceListPage = () => {
                 Fetching attendance...
               </span>
             </div>
-          ) : filteredAttendees.length === 0 ? (
+          ) : filteredAttendance.length === 0 ? (
             <p className="text-center text-gray-500 col-span-full">
               No Attendees records found
             </p>
           ) : (
-            filteredAttendees.map((entry) => (
+            filteredAttendance.map((entry) => (
               <div
                 key={entry._id}
                 className="bg-white border border-gray-200 rounded-lg shadow-sm p-7 hover:shadow-md transition relative"
               >
-                {/* top bar with icon + name */}
+                {/* staff details top row */}
                 <div className="flex items-center gap-3">
-                  <div>
-                    {entry.role === "admin" ? (
-                      <BadgeCheck className="w-5 h-5 text-yellow-800" />
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                  <img
+                    src={entry.images?.[0]}
+                    alt="images"
+                    className="w-12 h-12 rounded-full object-cover border"
+                  />
 
                   <div>
-                    <h2 className="text-lg font-semibold text-gray-900">
-                      {entry.fullName}
-                    </h2>
+                    <div className="flex items-center gap-1 mt-7">
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        {getFullName(entry.staffID)}
+                      </h2>
+                      {getRole(entry.staffID) === "admin" && (
+                        <BadgeCheck className="w-4 h-4 text-yellow-600" />
+                      )}
+                    </div>
                     <p className="text-sm text-gray-500">
                       {entry.staffID} • {entry.position}
                     </p>
+
+                    {/* status pill */}
+                    <div
+                      className={`mt-1 absolute top-3 right-3  inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium ${
+                        entry.status === "late"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-green-100 text-green-800"
+                      }`}
+                    >
+                      {entry.status === "late" ? (
+                        <XCircle className="w-4 h-4 text-red-600" />
+                      ) : (
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                      )}
+                      <span>
+                        {entry.status === "late" ? "Late" : "On Time"}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-500 mt-2">{entry.email}</p>
-                <p className="text-sm text-gray-500 mt-2">{entry.contact}</p>
+                {/* rest of info */}
+                <p className="text-sm text-gray-500 mt-2">
+                  <span className="font-medium text-zinc-900">Checked-In</span>{" "}
+                  : {entry.checkIn}
+                </p>
 
-                {/* role pill moved top-right */}
-                <p
-                  className={`absolute top-3 right-3 text-sm px-2 py-1 rounded-lg font-medium text-gray-700 ${
-                    entry.role === "admin"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : "bg-green-100 text-green-800"
-                  }`}
-                >
-                  {entry.role}
+                <p className="text-sm text-gray-500 mt-2">
+                  <span className="font-medium text-zinc-900">Checked-Out</span>{" "}
+                  : {entry.checkOut || "--"}
                 </p>
               </div>
             ))
@@ -440,4 +498,4 @@ const AttendanceListPage = () => {
   );
 };
 
-export default AttendanceListPage;
+export default ViewAttendance;

@@ -30,6 +30,7 @@ const Login = () => {
 
     // Check admin role
     if (user.attendee?.role === "admin") {
+      localStorage.setItem("userId", user.attendee._id);
       toast.success("Login successful! Redirecting...", { id: toastId });
       navigate("/insight-center");
     } else {

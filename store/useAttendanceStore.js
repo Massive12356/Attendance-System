@@ -5,11 +5,13 @@ import {
   postAttendanceIn,
   postAttendanceOut,
   createAttendee,
+  getTodayAttendance,
 } from "../src/services/attendance";
 
 const useAttendanceStore = create((set, get) => ({
   attendances: [], // All attendance records
   attendees: [], // All attendee records
+  todayAttendance: [], // lastest attendance
   loading: false,
   error: null,
   successMessage: null,
@@ -30,6 +32,24 @@ const useAttendanceStore = create((set, get) => ({
       set({ loading: false });
     } catch (err) {
       set({ error: err.message, loading: false });
+    }
+  },
+
+  fetchTodayAttendance: async () => {
+    set({ loading: true, error: null });
+    try {
+      const res = await getTodayAttendance();
+      console.log("RAW API /today response =>", res.data);
+
+      const records = Array.isArray(res.data?.data) ? res.data.data : [];
+      console.log("Extracted todayAttendance =>", records);
+
+      set({ todayAttendance: records });
+    } catch (err) {
+      console.error("Error fetching todayAttendance:", err);
+      set({ error: err.message, todayAttendance: [] });
+    } finally {
+      set({ loading: false });
     }
   },
 
@@ -111,7 +131,7 @@ const useAttendanceStore = create((set, get) => ({
       await get().fetchAllAttendees(true);
     } catch (error) {
       console.log("ERROR IN STORE: ", error);
-      throw new Error(error.response?.data?.message)
+      throw new Error(error.response?.data?.message);
     } finally {
       set({ loading: false });
     }

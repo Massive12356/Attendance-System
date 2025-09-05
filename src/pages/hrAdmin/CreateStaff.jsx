@@ -168,7 +168,7 @@ const CreateAttendee = () => {
                 )}
               </div>
 
-              {/*Role */}
+              {/* Role */}
               <div className="space-y-1">
                 <label className="block text-sm font-medium text-gray-700">
                   Role *
@@ -177,13 +177,20 @@ const CreateAttendee = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="block w-full px-3 py-2 border border-gray-300  rounded-lg shadow-sm 
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-          bg-white  text-gray-900  transition-colors duration-200"
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm
+      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+      bg-white text-gray-900 transition-colors duration-200
+      hover:border-blue-400 cursor-pointer"
                 >
-                  <option value="">Select Role</option>
-                  <option value="admin">Admin</option>
-                  <option value="member">Member</option>
+                  <option value="" disabled className="text-gray-400">
+                    Select Role
+                  </option>
+                  <option value="admin" className="hover:bg-blue-50">
+                    Admin
+                  </option>
+                  <option value="member" className="hover:bg-blue-50">
+                    Member
+                  </option>
                 </select>
                 {errors.role && (
                   <p className="text-sm text-red-600">{errors.role}</p>
@@ -191,48 +198,34 @@ const CreateAttendee = () => {
               </div>
 
               {/* Position */}
-              {/* <div className="space-y-1">
+              <div className="space-y-1">
                 <label className="block text-sm font-medium text-gray-700">
                   Position *
                 </label>
                 <select
-                  name="position"
-                  value={formData.position}
-                  onChange={handleChange}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm 
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-          bg-white  text-gray-900 transition-colors duration-200"
-                >
-                  <option value="">Select Position</option>
-                  <option value="ceo">CEO</option>
-                  <option value="operations">Operations Lead</option>
-                  <option value="marketing">Marketing</option>
-                  <option value="sales">Sales</option>
-                  <option value="developer">Developer</option>
-                  <option value="designer">Graphic Designer</option>
-                  <option value="intern">Intern</option>
-                  <option value="nss">National Service</option>
-                </select>
-              </div> */}
+  name="position"
+  value={formData.position}
+  onChange={handleChange}
+  className={`block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm 
+    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+    bg-white text-gray-900 transition-colors duration-200 
+    ${errors.position ? "border-red-500 focus:ring-red-500" : ""}`}
+>
+  <option value="">Select Position</option>
+  <option value="CEO">CEO</option>
+  <option value="OPERATIONS LEAD">OPERATIONS LEAD</option>
+  <option value="CONSULTANT">CONSULTANT</option>
+  <option value="MARKETING/SALES OFFICER">MARKETING/SALES OFFICER</option>
+  <option value="DEVELOPER">DEVELOPER</option>
+  <option value="MARKETING/SALES LEAD">MARKETING/SALES LEAD</option>
+  <option value="TECHNICAL LEAD">TECHNICAL LEAD</option>
+  <option value="SERVICE PERSONNEL">SERVICE PERSONNEL</option>
+  <option value="INTERN">INTERN</option>
+</select>
 
-              <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
-                  position *
-                </label>
-                <input
-                  name="position"
-                  type="text"
-                  value={formData.position}
-                  placeholder="Enter Position"
-                  onChange={handleChange}
-                  className={`block w-full px-3 py-2 border border-gray-300  rounded-lg shadow-sm 
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-          bg-white text-gray-900 transition-colors duration-200 
-          ${errors.position ? "border-red-500 focus:ring-red-500" : ""}`}
-                />
-                {errors.position && (
-                  <p className="text-sm text-red-600">{errors.position}</p>
-                )}
+{errors.position && (
+  <p className="text-sm text-red-600">{errors.position}</p>
+)}
               </div>
 
               {/*  Date of Birth */}
@@ -311,7 +304,7 @@ const CreateAttendee = () => {
                 Reset
               </button>
               <motion.button
-                whileTap={{scale:0.95}}
+                whileTap={{ scale: 0.95 }}
                 type="submit"
                 className={`px-4 py-2 text-white rounded-lg shadow hover:bg-blue-700 cursor-pointer ${
                   loading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600"

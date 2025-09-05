@@ -5,6 +5,11 @@ export const getAllAttendance = async () => {
   return apiClient.get("/attendance");
 };
 
+// get todays Attendance
+export const getTodayAttendance = async()=>{
+  return apiClient.get("/attendance-today");
+}
+
 // Get all Attendee records
 export const getAllAttendee = async () =>{
     return apiClient.get("/attendee");

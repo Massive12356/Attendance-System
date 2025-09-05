@@ -20,15 +20,18 @@ const DarkText = lazy(()=>import('./components/DarkText'));
 const AttendanceListPage = lazy(()=>import('./pages/hrAdmin/AttendanceListPage'))
 const Attendance = lazy(()=>import('./pages/hrAdmin/Attendance'))
 const CreateStaff = lazy(()=>import('./pages/hrAdmin/CreateStaff'))
+const ViewAttendance = lazy(()=>import('./pages/hrAdmin/ViewAttendance'));
 
 function App() {
 
-  const { fetchAllAttendance, fetchAllAttendees } = useAttendanceStore();
+  const { fetchAllAttendance, fetchAllAttendees, fetchTodayAttendance } =
+    useAttendanceStore();
 
    useEffect(() => {
      // Preload data when app loads
      fetchAllAttendance();
      fetchAllAttendees();
+     fetchTodayAttendance();
    }, []);
 
   useEffect(()=>{
@@ -94,6 +97,7 @@ function App() {
               <Route path="attendList" element={<AttendanceListPage />} />
               <Route path='attend' element={<Attendance/>}/>
               <Route path='create' element={<CreateStaff/>}/>
+              <Route path='view' element={<ViewAttendance/>}/>
             </Route>
           </Routes>
         </Suspense>
