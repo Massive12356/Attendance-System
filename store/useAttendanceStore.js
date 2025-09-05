@@ -39,10 +39,10 @@ const useAttendanceStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const res = await getTodayAttendance();
-      console.log("RAW API /today response =>", res.data);
+      // console.log("RAW API /today response =>", res.data);
 
       const records = Array.isArray(res.data?.data) ? res.data.data : [];
-      console.log("Extracted todayAttendance =>", records);
+      // console.log("Extracted todayAttendance =>", records);
 
       set({ todayAttendance: records });
     } catch (err) {

@@ -24,8 +24,9 @@ import { exportToExcel } from "../../utils/exportToExcel";
 const ViewAttendance = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [viewMode, setViewMode] = useState("");
+  const [selectedStaff , setSelectedStaff]= useState("all");
   const tableRef = useRef();
 
   const { attendees, fetchAllAttendees, loading, attendances } =
@@ -112,7 +113,7 @@ const ViewAttendance = () => {
     // Text search filter (safe with optional chaining)
     const matchSearch =
       attendee.position?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      attendee.fullName?.toLowerCase().includes(searchQuery.toLowerCase());
+      attendee.staffID?.toLowerCase().includes(searchQuery.toLowerCase());
 
     let matchesDate = true;
 
@@ -129,7 +130,13 @@ const ViewAttendance = () => {
       }
     }
 
-    return matchSearch && matchesDate;
+    // status filter
+    const matchesStatus = statusFilter === "all" ? true : attendee.status === statusFilter;
+
+    // name filter 
+    const matchesStaff = selectedStaff === "all" ? true : attendee.staffID === selectedStaff;
+
+    return matchSearch && matchesDate && matchesStaff && matchesStatus;
   });
 
   // handle export
@@ -163,13 +170,6 @@ const ViewAttendance = () => {
     return person?.role || "";
   };
 
-  useEffect(() => {
-    fetchAllAttendance(true);
-    const interval = setInterval(() => {
-      fetchAllAttendance(true);
-    }, 60000);
-    return () => clearInterval(interval);
-  }, [fetchAllAttendance]);
   return (
     <div className="space-y-6">
       {/* Watermark hidden from screen but useful for structure */}
@@ -204,11 +204,25 @@ const ViewAttendance = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 transition-colors duration-200"
             >
-              <option value="all">All Roles</option>
-              <option value="present">Present</option>
-              <option value="absent">Absent</option>
-              <option value="late">Late</option>
-              <option value="half-day">Half Day</option>
+              <option value="all">All</option>
+              {[...new Set(attendances.map((a) => a.status))].map((status) => (
+                <option key={status} value={status}>
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={selectedStaff}
+              onChange={(e) => setSelectedStaff(e.target.value)}
+              className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 transition-colors duration-200"
+            >
+              <option value="all">All Staff</option>
+              {attendees.map((staff) => (
+                <option key={staff.staffID} value={staff.staffID}>
+                  {staff.fullName}
+                </option>
+              ))}
             </select>
             <div className="flex space-x-2">
               <motion.button

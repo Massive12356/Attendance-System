@@ -124,7 +124,13 @@ const AttendanceListPage = () => {
       }
     }
 
-    return matchSearch && matchesDate;
+    // Role filter
+    let matchesRole = true;
+    if (statusFilter && statusFilter !== "all") {
+      matchesRole = attendee.role === statusFilter;
+    }
+
+    return matchSearch && matchesDate && matchesRole;
   });
 
   // handle export
@@ -183,10 +189,8 @@ const AttendanceListPage = () => {
               className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 transition-colors duration-200"
             >
               <option value="all">All Roles</option>
-              <option value="present">Present</option>
-              <option value="absent">Absent</option>
-              <option value="late">Late</option>
-              <option value="half-day">Half Day</option>
+              <option value="member">member</option>
+              <option value="admin">admin</option>
             </select>
             <div className="flex space-x-2">
               <motion.button

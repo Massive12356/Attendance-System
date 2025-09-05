@@ -147,7 +147,7 @@ const DashSideBar = ({ isOpen, setIsOpen, isCollapsed }) => {
                     Staff List
                   </NavLink>
 
-                  <NavLink
+                  {/* <NavLink
                     to="/insight-center/attend"
                     className={({ isActive }) =>
                       isActive
@@ -157,7 +157,7 @@ const DashSideBar = ({ isOpen, setIsOpen, isCollapsed }) => {
                   >
                     <FileText size={16} />
                     Stat Attendance
-                  </NavLink>
+                  </NavLink> */}
 
                   <NavLink
                     to="/insight-center/view"
